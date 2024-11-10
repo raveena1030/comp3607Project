@@ -1,34 +1,37 @@
-package comp3607project;
+package project;
 
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-import comp3607project.ZipFileHandling.FileCollection;
-import comp3607project.ZipFileHandling.FileHandler;
-import comp3607project.ZipFileHandling.SubmissionCollection;
 
 public class App 
 {
     public static void main( String[] args )
     {
-        SubmissionCollection submissions = new FileCollection();
         
-        File submissionsFolder = new File("C:\\Users\\shani\\OneDrive\\Desktop\\testfolder");
+    //     List<testResult> testResults = new ArrayList<>();
+    //   testResults.add(new testResult("Naming Conventions", true, "", 5));
+    // testResults.add(new testResult("Method Functionality", false, "Incorrect return type.", 3));
+    //  testResults.add(new testResult("Inheritance", true, "", 10));
 
-        for (File file:submissionsFolder.listFiles()){
-            if(file.isFile() && file.getName().endsWith(".zip")){
-                submissions.addSubmission(file);
-                System.out.println(file.getName() + " was added");
-            }
-        }
+    //    String studentID = "816";
+    //    String studentName = "John Doe";
+    //    String assignmentNumber = "Assignment 1";
+    //    int totalScore = testResults.stream().mapToInt(tr -> tr.score).sum(); // Sum of test scores
+    //    String outputFolder = "./"; // Output folder for the PDF
 
-        FileHandler fileHandler = new FileHandler();
-        String outputDirectory = "C:\\Users\\shani\\OneDrive\\Desktop";
-
+        PDFReportData reportData = new PDFReportData(studentID, StudentName, assignmentNumber, testResults, totalScore);
+        reportData.registerObserver(new HeaderObserver(reportData));
+        reportData.registerObserver(new TestResultsObserver(reportData));
+        
+        // Create PDF report
         try {
-            fileHandler.processSubmissions(submissions, outputDirectory);
+            PDFReportGenerator.generatePDFReport( studentID, studentName, assignmentNumber, testResults, totalScore, outputFolder);
+            System.out.println("PDF Report generated successfully!");
         } catch (IOException e) {
             e.printStackTrace();
         }
+      
     }
 }
