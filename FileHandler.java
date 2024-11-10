@@ -16,6 +16,8 @@ public class FileHandler {
             File zipFile = iterator.next();
             System.out.println("Processing submission: " + zipFile.getName());
             extractJavaFiles(zipFile, outputDirectory);
+            //implement jUnit code
+            //implement pdfGeneration code
         }
     }
 
